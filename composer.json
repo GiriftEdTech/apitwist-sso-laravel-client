@@ -1,0 +1,62 @@
+{
+    "name": "girift/apitwist-sso",
+    "description": "This is the client Integration with ApiTwist SSO.",
+    "keywords": [
+        "laravel",
+        "apitwist",
+        "sso",
+        "client"
+    ],
+    "homepage": "https://github.com/GiriftEdTech/apitwist-sso-laravel-client",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yasin BARAN",
+            "email": "brnysn@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7.2",
+        "laravel/framework": "^9",
+        "laravel/pint": "^1.0",
+        "spatie/laravel-package-tools": "^1.9.2"
+    },
+    "require-dev": {
+        "nunomaduro/collision": "^6.0",
+        "nunomaduro/larastan": "^2.0.1",
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Girift\\SSO\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": false,
+            "phpstan/extension-installer": false
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Girift\\SSO\\SSOServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
