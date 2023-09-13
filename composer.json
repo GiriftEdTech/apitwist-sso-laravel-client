@@ -1,5 +1,5 @@
 {
-    "name": "girift/apitwist-sso",
+    "name": "girift/apitwist-sso-laravel-client",
     "description": "This is the client Integration with ApiTwist SSO.",
     "keywords": [
         "laravel",

@@ -12,7 +12,7 @@ Client integration for ApiTwist SSO.
 Install the package via composer:
 
 ```bash
-composer require Girift/apitwist-sso-laravel-client
+composer require girift/apitwist-sso-laravel-client
 ```
 
 Add SSO config to your `.env` file:
