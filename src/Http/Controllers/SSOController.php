@@ -2,8 +2,8 @@
 
 namespace Girift\SSO\Http\Controllers;
 
-use Girift\SSO\Services\SSOService;
 use Carbon\Carbon;
+use Girift\SSO\Services\SSOService;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
