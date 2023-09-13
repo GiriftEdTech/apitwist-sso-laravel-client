@@ -2,8 +2,8 @@
 
 namespace Girift\SSO\Http\Middleware;
 
-use Girift\SSO\Services\SsoService;
 use Closure;
+use Girift\SSO\Services\SsoService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
