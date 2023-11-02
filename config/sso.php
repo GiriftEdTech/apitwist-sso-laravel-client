@@ -12,5 +12,6 @@ return [
     'authorize_url' => $sso_domain.'/oauth/authorize',
     'api_url' => $sso_domain.'/oauth/token',
     'logout_url' => $sso_domain.'/logout',
+    'error_url' => $sso_domain.'/error',
     'get_user_url' => $sso_domain.'/api/user',
 ];

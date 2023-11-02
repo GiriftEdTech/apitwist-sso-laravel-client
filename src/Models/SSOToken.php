@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 
 /**
- * @property mixed $id
+ * @property int $id
  * @property mixed $user_id
- * @property mixed $token
+ * @property string $token
  * @property mixed $scopes
  * @property mixed $last_used_at
  * @property mixed $expires_at
@@ -21,7 +21,7 @@ class SSOToken extends Model
 
     protected $table = 'sso_tokens';
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'last_used_at' => 'datetime',
