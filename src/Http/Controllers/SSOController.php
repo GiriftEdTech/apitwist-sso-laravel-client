@@ -23,8 +23,6 @@ class SSOController extends Controller
             'state' => $state,
         ]);
 
-        info(config('sso.authorize_url').'?'.$query);
-
         return redirect()->away(config('sso.authorize_url').'?'.$query);
     }
 

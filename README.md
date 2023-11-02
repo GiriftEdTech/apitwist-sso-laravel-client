@@ -20,13 +20,20 @@ Add SSO config to your `.env` file:
 ```php
 SSO_CLIENT_ID=client_id
 SSO_CLIENT_SECRET=client_secret
-SSO_DOMAIN='https://sso.apitwist.com/'
+SSO_DOMAIN='https://sso.apitwist.com'
 ```
 
 Add HasSsoTokens trait to your User model
 
 ```php
+// ...
 use Girift\SSO\Traits\HasSsoTokens;
+
+class User extends Authenticatable
+{
+    use HasSsoTokens;
+    // ...
+}
 ```
 
 Add middlewares to your `app/Http/Kernel.php` file $routeMiddleware array:
