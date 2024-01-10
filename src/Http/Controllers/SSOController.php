@@ -48,7 +48,7 @@ class SSOController extends Controller
             ],
         ]);
 
-        if (! $response->getStatusCode() == 200) {
+        if ($response->getStatusCode() != 200) {
             return redirect()->route('sso.login')->with('error', 'Invalid code');
         }
 
