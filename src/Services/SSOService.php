@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 
 class SSOService
 {
-    public function handle(string $token, string $expires_at = null, array $scopes = null): ?User
+    public function handle(string $token, ?string $expires_at = null, ?array $scopes = null): ?User
     {
         if (! $token) {
             return null;
@@ -62,7 +62,7 @@ class SSOService
         return $user;
     }
 
-    protected function updateToken(User $user, string $token, string $expires_at = null, array $scopes = null): void
+    protected function updateToken(User $user, string $token, ?string $expires_at = null, ?array $scopes = null): void
     {
         $user->ssoToken()->updateOrCreate(
             [
