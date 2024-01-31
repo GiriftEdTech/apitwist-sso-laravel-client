@@ -53,7 +53,7 @@ class InstitutionController extends Controller
         return $institution->update($data);
     }
 
-    public function delete(Request $request, $id)
+    public function destroy(Request $request, $id)
     {
         $institution = \App\Models\Institution::find($id);
         if (! $institution) {

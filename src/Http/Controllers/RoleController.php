@@ -42,7 +42,7 @@ class RoleController extends Controller
         return $role->update($data);
     }
 
-    public function delete(Request $request, $id)
+    public function destroy(Request $request, $id)
     {
         $role = \App\Models\Role::find($id);
         if (! $role) {

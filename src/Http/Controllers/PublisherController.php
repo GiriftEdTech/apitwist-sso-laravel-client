@@ -45,7 +45,7 @@ class PublisherController extends Controller
         return $publisher->update($data);
     }
 
-    public function delete(Request $request, $id)
+    public function destroy(Request $request, $id)
     {
         $publisher = \App\Models\Publisher::find($id);
         if (! $publisher) {

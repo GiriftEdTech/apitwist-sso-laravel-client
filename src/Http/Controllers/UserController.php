@@ -66,7 +66,7 @@ class UserController extends Controller
         return $user;
     }
 
-    public function delete(Request $request, $id)
+    public function destroy(Request $request, $id)
     {
         $user = \App\Models\User::find($id);
         if (! $user) {
