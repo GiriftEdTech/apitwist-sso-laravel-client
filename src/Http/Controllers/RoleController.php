@@ -4,6 +4,7 @@ namespace Girift\SSO\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
@@ -22,9 +23,11 @@ class RoleController extends Controller
     {
         // get validated data
         $data = $request->validate($this->rules);
+        $data['created_at'] = now();
+        $data['updated_at'] = now();
 
         // create
-        return \App\Models\Role::create($data);
+        DB::table('roles')->insert($data);
     }
 
     public function update(Request $request, $id)

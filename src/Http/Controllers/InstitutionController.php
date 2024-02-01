@@ -4,6 +4,7 @@ namespace Girift\SSO\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class InstitutionController extends Controller
 {
@@ -25,7 +26,7 @@ class InstitutionController extends Controller
         'image' => 'nullable|string|max:255',
         'address' => 'nullable|string|max:255',
         'zipcode' => 'nullable|string|max:255',
-        'is_individual' => 'required|boolean',
+        'is_individual' => 'nullable|boolean',
         'parent_id' => 'nullable|uuid',
     ];
 
@@ -33,9 +34,11 @@ class InstitutionController extends Controller
     {
         // get validated data
         $data = $request->validate($this->rules);
-
+        $data['created_at'] = now();
+        $data['updated_at'] = now();
+        
         // create
-        return \App\Models\Institution::create($data);
+        DB::table('institutions')->insert($data);
     }
 
     public function update(Request $request, $id)

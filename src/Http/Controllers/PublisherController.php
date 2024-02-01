@@ -4,6 +4,7 @@ namespace Girift\SSO\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class PublisherController extends Controller
 {
@@ -25,9 +26,11 @@ class PublisherController extends Controller
     {
         // get validated data
         $data = $request->validate($this->rules);
+        $data['created_at'] = now();
+        $data['updated_at'] = now();
 
         // create
-        return \App\Models\Publisher::create($data);
+        DB::table('publishers')->insert($data);
     }
 
     public function update(Request $request, $id)

@@ -4,6 +4,7 @@ namespace Girift\SSO\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -31,17 +32,17 @@ class UserController extends Controller
     {
         // get validated data
         $data = $request->validate($this->rules);
+        $data['created_at'] = now();
+        $data['updated_at'] = now();
         unset($data['institutions']);
 
         // create
-        $user = \App\Models\User::create($data);
+        DB::table('users')->insert($data);
 
         // sync institutions
         if ($request->institutions) {
             // TODO: sync institutions
         }
-
-        return $user;
     }
 
     public function update(Request $request, $id)
