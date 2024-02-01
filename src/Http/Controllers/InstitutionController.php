@@ -36,7 +36,7 @@ class InstitutionController extends Controller
         $data = $request->validate($this->rules);
         $data['created_at'] = now();
         $data['updated_at'] = now();
-        
+
         // create
         DB::table('institutions')->insert($data);
     }
