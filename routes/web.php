@@ -1,12 +1,11 @@
 <?php
 
+use Girift\SSO\Http\Controllers\InstitutionAuthorizationController;
 use Girift\SSO\Http\Controllers\InstitutionController;
 use Girift\SSO\Http\Controllers\PublisherController;
-use Girift\SSO\Http\Controllers\RoleController;
+use Girift\SSO\Http\Controllers\RoleUserController;
 use Girift\SSO\Http\Controllers\SSOController;
 use Girift\SSO\Http\Controllers\UserController;
-use Girift\SSO\Http\Controllers\RoleUserController;
-use Girift\SSO\Http\Controllers\InstitutionAuthorizationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/sso/login', [SSOController::class, 'login'])->name('sso.login');
