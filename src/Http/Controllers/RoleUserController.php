@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
-class InstitutionController extends Controller
+class RoleUserController extends Controller
 {
     /**
      * This controller is for automated model syncronization.
@@ -15,19 +15,9 @@ class InstitutionController extends Controller
      */
     protected $rules = [
         'id' => 'sometimes|nullable|uuid',
-        'name' => 'required|string|max:255',
-        'phone' => 'nullable|string|max:255',
-        'email' => 'required|email|max:255',
-        'manager_id' => 'nullable|uuid',
-        'active' => 'required|boolean',
-        'country_id' => 'nullable|uuid',
-        'state_id' => 'nullable|uuid',
-        'city_id' => 'nullable|uuid',
-        'image' => 'nullable|string|max:255',
-        'address' => 'nullable|string|max:255',
-        'zipcode' => 'nullable',
-        'is_individual' => 'nullable|boolean',
-        'parent_id' => 'nullable|uuid',
+        'role_id' => 'required|uuid',
+        'user_id' => 'required|uuid',
+        'institution_id' => 'nullable|uuid',
     ];
 
     public function store(Request $request)
@@ -38,7 +28,7 @@ class InstitutionController extends Controller
         $data['updated_at'] = now();
 
         // create
-        DB::table('institutions')->insert($data);
+        DB::table('role_user')->insert($data);
     }
 
     public function update(Request $request, $id)
@@ -48,23 +38,23 @@ class InstitutionController extends Controller
         unset($data['id']);
 
         // update
-        $institution = \App\Models\Institution::find($id);
-        if (! $institution) {
+        $roleUser = \App\Models\RoleUser::find($id);
+        if (! $roleUser) {
             return false;
         }
 
-        return $institution->update($data);
+        return $roleUser->update($data);
     }
 
     public function destroy(Request $request, $id)
     {
-        $institution = \App\Models\Institution::find($id);
-        if (! $institution) {
+        $roleUser = \App\Models\RoleUser::find($id);
+        if (! $roleUser) {
             return false;
         }
 
         $is_force_delete = $request->force_delete ?? false;
 
-        return $is_force_delete ? $institution->forceDelete() : $institution->delete();
+        return $is_force_delete ? $roleUser->forceDelete() : $roleUser->delete();
     }
 }

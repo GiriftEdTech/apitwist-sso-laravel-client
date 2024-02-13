@@ -15,17 +15,17 @@ class UserController extends Controller
      */
     protected $rules = [
         'id' => 'sometimes|nullable|uuid',
-        'name' => 'required|string|max:255',
-        'surname' => 'required|string|max:255',
-        'username' => 'required|string|max:255',
+        'name' => 'nullable|string|max:255',
+        'surname' => 'nullable|string|max:255',
+        'username' => 'nullable|string|max:255',
         'email' => 'required|email|max:255',
         'email_verified_at' => 'nullable|date',
         'phone' => 'nullable|string|max:255',
-        'active' => 'required|boolean',
+        'phone_code' => 'nullable|string|max:50',
+        'active' => 'nullable|boolean',
         'language_id' => 'nullable|uuid',
         'image' => 'nullable|string|max:255',
         'phone_code' => 'nullable|string|max:255',
-        'institutions' => 'nullable|array',
     ];
 
     public function store(Request $request)
@@ -34,7 +34,6 @@ class UserController extends Controller
         $data = $request->validate($this->rules);
         $data['created_at'] = now();
         $data['updated_at'] = now();
-        unset($data['institutions']);
 
         // create
         DB::table('users')->insert($data);
