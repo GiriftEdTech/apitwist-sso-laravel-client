@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
-class InstitutionController extends Controller
+class InstitutionAuthorizationController extends Controller
 {
     /**
      * This controller is for automated model syncronization.
@@ -15,19 +15,10 @@ class InstitutionController extends Controller
      */
     protected $rules = [
         'id' => 'sometimes|nullable|uuid',
-        'name' => 'required|string|max:255',
-        'phone' => 'nullable|string|max:255',
-        'email' => 'required|email|max:255',
-        'manager_id' => 'nullable|uuid',
-        'active' => 'required|boolean',
-        'country_id' => 'nullable|uuid',
-        'state_id' => 'nullable|uuid',
-        'city_id' => 'nullable|uuid',
-        'image' => 'nullable|string|max:255',
-        'address' => 'nullable|string|max:255',
-        'zipcode' => 'nullable',
-        'is_individual' => 'nullable|boolean',
-        'parent_id' => 'nullable|uuid',
+        'app_id' => 'required|uuid',
+        'institution_id' => 'required|uuid',
+        'started_at' => 'required|date',
+        'ended_at' => 'required|date|after:started_at',
     ];
 
     public function store(Request $request)
@@ -38,7 +29,7 @@ class InstitutionController extends Controller
         $data['updated_at'] = now();
 
         // create
-        DB::table('institutions')->insert($data);
+        DB::table('app_institution')->insert($data);
     }
 
     public function update(Request $request, $id)
@@ -48,23 +39,23 @@ class InstitutionController extends Controller
         unset($data['id']);
 
         // update
-        $institution = \App\Models\Institution::find($id);
-        if (! $institution) {
+        $institutionAuthorization = \App\Models\InstitutionAuthorization::find($id);
+        if (! $institutionAuthorization) {
             return false;
         }
 
-        return $institution->update($data);
+        return $institutionAuthorization->update($data);
     }
 
     public function destroy(Request $request, $id)
     {
-        $institution = \App\Models\Institution::find($id);
-        if (! $institution) {
+        $institutionAuthorization = \App\Models\InstitutionAuthorization::find($id);
+        if (! $institutionAuthorization) {
             return false;
         }
 
         $is_force_delete = $request->force_delete ?? false;
 
-        return $is_force_delete ? $institution->forceDelete() : $institution->delete();
+        return $is_force_delete ? $institutionAuthorization->forceDelete() : $institutionAuthorization->delete();
     }
 }
