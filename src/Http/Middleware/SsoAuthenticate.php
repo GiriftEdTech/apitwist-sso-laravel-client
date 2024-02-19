@@ -16,13 +16,10 @@ class SsoAuthenticate
 
     private int $validateTokenTime;
 
-    private SsoService $service;
-
     public function __construct()
     {
         $this->loginUrl = route('sso.login');
         $this->validateTokenTime = 30;
-        $this->service = new SsoService();
     }
 
     /**
@@ -50,7 +47,7 @@ class SsoAuthenticate
         // If token last used at is greater than 30 minutes ago, logout user
         if ($user->ssoToken->last_used_at->diffInMinutes() > $this->validateTokenTime) {
             //validate token
-            if (! $this->service->validateToken($user->getSsoToken(), $user)) {
+            if (! (new SsoService())->validateToken($user->getSsoToken(), $user)) {
                 $user->ssoToken->delete();
                 auth()->logout();
 
