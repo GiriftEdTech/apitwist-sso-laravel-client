@@ -14,6 +14,7 @@ class AppController extends Controller
      * The controller handles the request from the Console Server.
      */
     protected $rules = [
+        'id' => 'sometimes|nullable|uuid',
         'name' => 'required|string|max:255',
         'description' => 'sometimes|string|max:255',
         'icon' => 'nullable|string|max:255',
@@ -28,7 +29,6 @@ class AppController extends Controller
 
     public function store(Request $request)
     {
-        info('AppController@store', $request->all());
         // get validated data
         $data = $request->validate($this->rules);
         $data['created_at'] = now();
