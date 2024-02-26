@@ -6,6 +6,7 @@ use Girift\SSO\Http\Controllers\PublisherController;
 use Girift\SSO\Http\Controllers\RoleUserController;
 use Girift\SSO\Http\Controllers\SSOController;
 use Girift\SSO\Http\Controllers\UserController;
+use Girift\SSO\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/sso/login', [SSOController::class, 'login'])->name('sso.login');
@@ -18,6 +19,7 @@ $syncRoutes = [
     ['\App\Models\User', 'users', UserController::class],
     ['\App\Models\RoleUser', 'role_user', RoleUserController::class],
     ['\App\Models\InstitutionAuthorization', 'institution_authorization', InstitutionAuthorizationController::class],
+    ['\App\Models\App', 'apps', AppController::class],
 ];
 
 foreach ($syncRoutes as $syncRoute) {
