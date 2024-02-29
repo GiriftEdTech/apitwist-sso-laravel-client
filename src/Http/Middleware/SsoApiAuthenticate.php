@@ -3,7 +3,7 @@
 namespace Girift\SSO\Http\Middleware;
 
 use Closure;
-use Girift\SSO\Services\SsoService;
+use Girift\SSO\Services\SSOService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,12 +13,12 @@ class SsoApiAuthenticate
 {
     private int $validateTokenTime;
 
-    private SsoService $service;
+    private SSOService $service;
 
     public function __construct()
     {
         $this->validateTokenTime = 30;
-        $this->service = new SsoService();
+        $this->service = new SSOService();
     }
 
     /**

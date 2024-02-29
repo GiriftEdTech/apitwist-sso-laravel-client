@@ -3,7 +3,7 @@
 namespace Girift\SSO\Http\Middleware;
 
 use Closure;
-use Girift\SSO\Services\SsoService;
+use Girift\SSO\Services\SSOService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -47,7 +47,7 @@ class SsoAuthenticate
         // If token last used at is greater than 30 minutes ago, logout user
         if ($user->ssoToken->last_used_at->diffInMinutes() > $this->validateTokenTime) {
             //validate token
-            if (! (new SsoService())->validateToken($user->getSsoToken(), $user)) {
+            if (! (new SSOService())->validateToken($user->getSsoToken(), $user)) {
                 $user->ssoToken->delete();
                 auth()->logout();
 
