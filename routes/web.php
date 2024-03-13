@@ -2,6 +2,7 @@
 
 use Girift\SSO\Http\Controllers\AppController;
 use Girift\SSO\Http\Controllers\InstitutionAuthorizationController;
+use Girift\SSO\Http\Controllers\InstitutionCategoryController;
 use Girift\SSO\Http\Controllers\InstitutionController;
 use Girift\SSO\Http\Controllers\PublisherController;
 use Girift\SSO\Http\Controllers\RoleUserController;
@@ -20,6 +21,7 @@ $syncRoutes = [
     ['\App\Models\RoleUser', 'role_user', RoleUserController::class],
     ['\App\Models\InstitutionAuthorization', 'institution_authorization', InstitutionAuthorizationController::class],
     ['\App\Models\App', 'apps', AppController::class],
+    ['\App\Models\App', 'institution_categories', InstitutionCategoryController::class],
 ];
 
 foreach ($syncRoutes as $syncRoute) {
