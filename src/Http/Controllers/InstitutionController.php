@@ -28,6 +28,7 @@ class InstitutionController extends Controller
         'zipcode' => 'nullable',
         'is_individual' => 'nullable|boolean',
         'parent_id' => 'nullable|uuid',
+        'institution_category_id' => 'nullable|exists:institution_categories,id',
     ];
 
     public function store(Request $request)
