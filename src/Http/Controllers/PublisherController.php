@@ -19,7 +19,6 @@ class PublisherController extends Controller
         'manager_id' => 'nullable|uuid',
         'book_amount' => 'nullable|integer',
         'user_amount' => 'nullable|integer',
-        'old_id' => 'nullable|integer',
         'image' => 'nullable|string|max:255',
     ];
 
