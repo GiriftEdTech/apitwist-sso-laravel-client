@@ -53,7 +53,7 @@ class SSOService
             // check if any data is changed
             $changed = false;
             foreach ($data as $key => $value) {
-                if (!in_array($key, ['name', 'surname', 'username', 'phone', 'active'])) {
+                if (! in_array($key, ['name', 'surname', 'username', 'phone', 'active'])) {
                     continue;
                 }
                 if ($value != $old_user->$key) {
@@ -71,6 +71,7 @@ class SSOService
                     'active' => $data['active'] ?? null,
                 ]);
             }
+
             return $old_user;
         } else {
             return User::create([
