@@ -67,6 +67,7 @@ class SSOController extends Controller
 
         if (! $user = (new SSOService())->handle($response['access_token'], $expires_at)) {
             info('user not found');
+
             return redirect()->route('sso.login')->with('error', 'Invalid state');
         }
 
