@@ -9,6 +9,7 @@ class SSOService
 {
     public function handle(string $token, ?string $expires_at = null, ?array $scopes = null): ?User
     {
+        info('-----------handle-----------');
         if (! $token) {
             return null;
         }
@@ -17,6 +18,8 @@ class SSOService
         if (! $data) {
             return null;
         }
+
+        info('data: '.json_encode($data));
 
         $user = $this->createOrUpdateUser($data);
 
@@ -27,10 +30,8 @@ class SSOService
 
     protected function getUserData(string $token)
     {
-        info('---- getUserData method');
         if (! $token) {
             info('token is empty');
-
             return null;
         }
 
@@ -44,11 +45,9 @@ class SSOService
         ]);
         if ($res->getStatusCode() != 200) {
             info('status code is not 200');
-
             return null;
         }
         $result = (string) $res->getBody();
-        info('result: '.$result);
 
         return json_decode($result, true);
     }
@@ -56,6 +55,7 @@ class SSOService
     protected function createOrUpdateUser($data): User
     {
         if ($old_user = User::where('email', $data['email'])->first()) {
+            info('old_user: '.json_encode($old_user));
             // check if any data is changed
             $changed = false;
             foreach ($data as $key => $value) {
@@ -69,7 +69,8 @@ class SSOService
             }
 
             if ($changed) {
-                $old_user->update([
+                info('data changed');
+                $old_user->updateQuietly([
                     'name' => $data['name'] ?? null,
                     'surname' => $data['surname'] ?? null,
                     'username' => $data['username'] ?? null,
@@ -93,6 +94,8 @@ class SSOService
 
     protected function updateToken(User $user, string $token, ?string $expires_at = null, ?array $scopes = null): void
     {
+        info('-----------updateToken-----------');
+        info('token: '.$token);
         $user->ssoToken()->updateOrCreate(
             [
                 'user_id' => $user->id,
@@ -108,21 +111,15 @@ class SSOService
 
     public function validateToken(string $token, User $user): bool
     {
-        info('---- validateToken method');
-        info('token: '.$token);
-        info('user: '.json_encode($user));
         $result = $this->getUserData($token);
-        info('result: '.json_encode($result));
 
         if ($result && $result['email'] && $result['email'] === $user->email) {
-            info('token is valid');
             $user->ssoToken()->update([
                 'last_used_at' => now(),
             ]);
 
             return true;
         }
-        info('token is not valid');
 
         return false;
     }
