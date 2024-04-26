@@ -31,27 +31,25 @@ class SsoApiAuthenticate
         $token = $request->bearerToken();
 
         if (! $token) {
-            info('Token: '.$request->all());
-
-            return response()->error(401, 'Unauthorized');
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
         }
 
         $user = $this->service->handle($token);
 
         if (! $user || ! $user->ssoToken()->exists()) {
-            return response()->error(401, 'Unauthorized');
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
         }
 
         // If the user is logged in, but the token is expired,
         if ($user->ssoToken->isExpired()) {
-            return response()->error(401, 'Unauthorized');
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
         }
 
         // If token last used at is greater than 30 minutes ago, logout user
         if ($user->ssoToken->last_used_at->diffInMinutes() > $this->validateTokenTime) {
             //validate token
             if (! $this->service->validateToken($user->getSsoToken(), $user)) {
-                return response()->error(401, 'Unauthorized');
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
             }
         }
         Auth::login($user);
