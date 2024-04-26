@@ -30,6 +30,7 @@ class SSOService
         info('---- getUserData method');
         if (! $token) {
             info('token is empty');
+
             return null;
         }
 
@@ -43,6 +44,7 @@ class SSOService
         ]);
         if ($res->getStatusCode() != 200) {
             info('status code is not 200');
+
             return null;
         }
         $result = (string) $res->getBody();
