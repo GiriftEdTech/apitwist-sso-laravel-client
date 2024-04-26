@@ -27,7 +27,9 @@ class SSOService
 
     protected function getUserData(string $token)
     {
+        info('---- getUserData method');
         if (! $token) {
+            info('token is empty');
             return null;
         }
 
@@ -40,9 +42,11 @@ class SSOService
 
         ]);
         if ($res->getStatusCode() != 200) {
+            info('status code is not 200');
             return null;
         }
         $result = (string) $res->getBody();
+        info('result: '.$result);
 
         return json_decode($result, true);
     }
@@ -103,6 +107,8 @@ class SSOService
     public function validateToken(string $token, User $user): bool
     {
         info('---- validateToken method');
+        info('token: '.$token);
+        info('user: '.json_encode($user));
         $result = $this->getUserData($token);
         info('result: '.json_encode($result));
 
