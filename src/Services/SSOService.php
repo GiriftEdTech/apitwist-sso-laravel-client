@@ -53,7 +53,7 @@ class SSOService
             // check if any data is changed
             $changed = false;
             foreach ($data as $key => $value) {
-                if ($old_user->$key != $value) {
+                if ($value != $old_user->$key) {
                     $changed = true;
                     break;
                 }
