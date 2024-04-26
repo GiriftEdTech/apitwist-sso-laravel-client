@@ -53,6 +53,9 @@ class SSOService
             // check if any data is changed
             $changed = false;
             foreach ($data as $key => $value) {
+                if (!in_array($key, ['name', 'surname', 'username', 'phone', 'active'])) {
+                    continue;
+                }
                 if ($value != $old_user->$key) {
                     $changed = true;
                     break;
