@@ -29,9 +29,10 @@ class SsoApiAuthenticate
     public function handle(Request $request, Closure $next): mixed
     {
         $token = $request->bearerToken();
-        
+
         if (! $token) {
             info('Token: '.$request->all());
+
             return response()->error(401, 'Unauthorized');
         }
 
