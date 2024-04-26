@@ -68,6 +68,7 @@ class SSOService
                     'active' => $data['active'] ?? null,
                 ]);
             }
+            return $old_user;
         } else {
             return User::create([
                 'email' => $data['email'] ?? null,
