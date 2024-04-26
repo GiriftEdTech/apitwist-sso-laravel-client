@@ -49,17 +49,35 @@ class SSOService
 
     protected function createOrUpdateUser($data): User
     {
-        $user = User::updateOrCreate([
-            'email' => $data['email'] ?? null,
-        ], [
-            'name' => $data['name'] ?? null,
-            'surname' => $data['surname'] ?? null,
-            'username' => $data['username'] ?? null,
-            'phone' => $data['phone'] ?? null,
-            'active' => $data['active'] ?? null,
-        ]);
+        if ($old_user = User::where('email', $data['email'])->first()) {
+            // check if any data is changed
+            $changed = false;
+            foreach ($data as $key => $value) {
+                if ($old_user->$key != $value) {
+                    $changed = true;
+                    break;
+                }
+            }
 
-        return $user;
+            if ($changed) {
+                $old_user->update([
+                    'name' => $data['name'] ?? null,
+                    'surname' => $data['surname'] ?? null,
+                    'username' => $data['username'] ?? null,
+                    'phone' => $data['phone'] ?? null,
+                    'active' => $data['active'] ?? null,
+                ]);
+            }
+        } else {
+            return User::create([
+                'email' => $data['email'] ?? null,
+                'name' => $data['name'] ?? null,
+                'surname' => $data['surname'] ?? null,
+                'username' => $data['username'] ?? null,
+                'phone' => $data['phone'] ?? null,
+                'active' => $data['active'] ?? null,
+            ]);
+        }
     }
 
     protected function updateToken(User $user, string $token, ?string $expires_at = null, ?array $scopes = null): void
