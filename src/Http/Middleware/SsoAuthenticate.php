@@ -31,7 +31,7 @@ class SsoAuthenticate
     {
         $user = auth()->user();
         info('---------------- SsoAuthenticate middleware');
-        info('user: '.$user ? $user->id : 'no user');
+        info('user: '.$user ? json_encode($user) : 'no user');
         if (! $user || ! $user->ssoToken()->exists()) {
             info('no token found');
             auth()->logout();
