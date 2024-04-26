@@ -102,15 +102,19 @@ class SSOService
 
     public function validateToken(string $token, User $user): bool
     {
+        info('---- validateToken method');
         $result = $this->getUserData($token);
+        info('result: '.json_encode($result));
 
         if ($result && $result['email'] && $result['email'] === $user->email) {
+            info('token is valid');
             $user->ssoToken()->update([
                 'last_used_at' => now(),
             ]);
 
             return true;
         }
+        info('token is not valid');
 
         return false;
     }

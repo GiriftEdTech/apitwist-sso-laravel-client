@@ -30,7 +30,10 @@ class SsoAuthenticate
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
+        info('---------------- SsoAuthenticate middleware');
+        info('user: '.$user ? $user->id : 'no user');
         if (! $user || ! $user->ssoToken()->exists()) {
+            info('no token found');
             auth()->logout();
 
             return redirect($this->loginUrl);
@@ -38,6 +41,7 @@ class SsoAuthenticate
 
         // If the user is logged in, but the token is expired,
         if ($user->ssoToken->isExpired()) {
+            info('token is expired');
             $user->ssoToken->delete();
             auth()->logout();
 
@@ -46,8 +50,10 @@ class SsoAuthenticate
 
         // If token last used at is greater than 30 minutes ago, logout user
         if ($user->ssoToken->last_used_at->diffInMinutes() > $this->validateTokenTime) {
+            info('token last used at is greater than 30 minutes ago');
             //validate token
             if (! (new SSOService())->validateToken($user->getSsoToken(), $user)) {
+                info('token is not valid');
                 $user->ssoToken->delete();
                 auth()->logout();
 
