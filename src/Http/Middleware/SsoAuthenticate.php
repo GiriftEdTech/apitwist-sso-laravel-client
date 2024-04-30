@@ -4,13 +4,13 @@ namespace Girift\SSO\Http\Middleware;
 
 use App\Models\User;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 use Girift\SSO\Services\SSOService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SsoAuthenticate
