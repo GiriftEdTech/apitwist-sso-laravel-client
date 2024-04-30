@@ -39,6 +39,8 @@ class SsoAuthenticate
 
         info('session: '.json_encode(session()->all()));
 
+        info('Cookie: ' . $request->cookie('laravel_token'));
+        
         if (! $user || ! $user->ssoToken()->exists()) {
             info('no token found');
 
