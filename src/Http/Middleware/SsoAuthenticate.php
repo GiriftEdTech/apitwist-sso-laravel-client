@@ -2,13 +2,16 @@
 
 namespace Girift\SSO\Http\Middleware;
 
+use App\Models\User;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Girift\SSO\Services\SSOService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\DB;
 
 class SsoAuthenticate
 {
@@ -33,13 +36,36 @@ class SsoAuthenticate
         info('---------------- SsoAuthenticate middleware');
         info('user: '.$user ? json_encode($user) : 'no user');
         info('laravel_token: '.session()->get('laravel_token'));
+
         info('session: '.json_encode(session()->all()));
 
         if (! $user || ! $user->ssoToken()->exists()) {
             info('no token found');
-            auth()->logout();
 
-            return redirect($this->loginUrl);
+            // check if session has sso_access_token
+            if (! session()->has('sso_access_token')) {
+                auth()->logout();
+                info('no sso_access_token found');
+
+                return redirect($this->loginUrl);
+            }
+
+            $token = session()->get('sso_access_token');
+            if (! DB::table('sso_tokens')->where('token', $token)->first()) {
+                auth()->logout();
+                info('no token found in db');
+
+                return redirect($this->loginUrl);
+            }
+
+            if (! $user = User::find($token)) {
+                auth()->logout();
+                info('no user found');
+
+                return redirect($this->loginUrl);
+            }
+
+            Auth::login($user);
         }
 
         // If the user is logged in, but the token is expired,
