@@ -32,7 +32,7 @@ class SsoAuthenticate
         $user = auth()->user();
         info('---------------- SsoAuthenticate middleware');
         info('user: '.$user ? json_encode($user) : 'no user');
-        info('laravel_token: '. session()->get('laravel_token'));
+        info('laravel_token: '.session()->get('laravel_token'));
 
         if (! $user || ! $user->ssoToken()->exists()) {
             info('no token found');
