@@ -9,7 +9,6 @@ class SSOService
 {
     public function handle(string $token, ?string $expires_at = null, ?array $scopes = null): ?User
     {
-        // info('-----------handle-----------');
         if (! $token) {
             return null;
         }
@@ -18,8 +17,6 @@ class SSOService
         if (! $data) {
             return null;
         }
-
-        // info('data: '.json_encode($data));
 
         $user = $this->createOrUpdateUser($data);
 
@@ -31,8 +28,6 @@ class SSOService
     protected function getUserData(string $token)
     {
         if (! $token) {
-            // info('token is empty');
-
             return null;
         }
 
@@ -45,8 +40,6 @@ class SSOService
 
         ]);
         if ($res->getStatusCode() != 200) {
-            // info('status code is not 200');
-
             return null;
         }
         $result = (string) $res->getBody();
@@ -57,7 +50,6 @@ class SSOService
     protected function createOrUpdateUser($data): User
     {
         if ($old_user = User::where('email', $data['email'])->first()) {
-            // info('old_user: '.json_encode($old_user));
             // check if any data is changed
             $changed = false;
             foreach ($data as $key => $value) {
@@ -71,7 +63,6 @@ class SSOService
             }
 
             if ($changed) {
-                // info('data changed');
                 $old_user->updateQuietly([
                     'name' => $data['name'] ?? null,
                     'surname' => $data['surname'] ?? null,
@@ -96,8 +87,6 @@ class SSOService
 
     protected function updateToken(User $user, string $token, ?string $expires_at = null, ?array $scopes = null): void
     {
-        // info('-----------updateToken-----------');
-        // info('token: '.$token);
         $user->ssoToken()->updateOrCreate(
             [
                 'user_id' => $user->id,

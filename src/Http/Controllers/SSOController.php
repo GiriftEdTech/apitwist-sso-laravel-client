@@ -14,7 +14,6 @@ class SSOController extends Controller
 {
     public function login(Request $request)
     {
-        info('-----------login-----------');
         $request->session()->put('state', $state = Str::random(40));
         $query = http_build_query([
             'client_id' => config('sso.client_id'),
@@ -29,7 +28,6 @@ class SSOController extends Controller
 
     public function callback(Request $request)
     {
-        info('-----------callback-----------');
         if ($error = $request->get('error')) {
             return redirect()->away(config('sso.error_url'))->with('error', $error);
         }
@@ -56,8 +54,6 @@ class SSOController extends Controller
 
         $response = json_decode((string) $response->getBody(), true);
 
-        info('response: '.json_encode($response));
-
         $request->session()->put('sso_access_token', $response['access_token']);
         $request->session()->put('sso_refresh_token', $response['refresh_token']);
         $request->session()->put('sso_tokens_verified_at', now());
@@ -66,13 +62,10 @@ class SSOController extends Controller
         $expires_at = Carbon::parse($response['expires_in'] + now()->timestamp);
 
         if (! $user = (new SSOService())->handle($response['access_token'], $expires_at)) {
-            info('user not found');
-
             return redirect()->route('sso.login')->with('error', 'Invalid state');
         }
 
         Auth::login($user);
-        info('logged in user: '.json_encode($user));
 
         return redirect()->route('sso.loggedIn', ['user' => $user->id, 'token' => $response['access_token']]);
     }
