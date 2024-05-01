@@ -35,11 +35,9 @@ class SsoAuthenticate
         $user = auth()->user();
         info('---------------- SsoAuthenticate middleware');
         info('user: '.$user ? json_encode($user) : 'no user');
-        info('laravel_token: '.session()->get('laravel_token'));
+        info('laravel_token: '.session('laravel_token'));
 
         info('session: '.json_encode(session()->all()));
-
-        info('Cookie: '.$request->cookie('laravel_token'));
 
         if (! $user || ! $user->ssoToken()->exists()) {
             info('no token found');
@@ -52,7 +50,7 @@ class SsoAuthenticate
                 return redirect($this->loginUrl);
             }
 
-            $token = session()->get('sso_access_token');
+            $token = session('sso_access_token');
             if (! DB::table('sso_tokens')->where('token', $token)->first()) {
                 auth()->logout();
                 info('no token found in db');
