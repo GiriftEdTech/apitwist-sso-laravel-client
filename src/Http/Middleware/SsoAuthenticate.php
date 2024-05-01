@@ -15,15 +15,9 @@ use Illuminate\Support\Facades\DB;
 
 class SsoAuthenticate
 {
-    private string $loginUrl;
+    private string $loginUrl = route('sso.login');
 
-    private int $validateTokenTime;
-
-    public function __construct()
-    {
-        $this->loginUrl = route('sso.login');
-        $this->validateTokenTime = 30;
-    }
+    private int $validateTokenTime = 30;
 
     /**
      * Handle an incoming request.
@@ -38,6 +32,8 @@ class SsoAuthenticate
         info('laravel_token: '.session('laravel_token'));
 
         info('session: '.json_encode(session()->all()));
+
+        info('request: '.json_encode($request->all()));
 
         if (! $user || ! $user->ssoToken()->exists()) {
             info('no token found');
