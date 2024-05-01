@@ -38,17 +38,20 @@ class SsoAuthenticate
             // check if session has sso_access_token
             if (! session()->has('sso_access_token')) {
                 auth()->logout();
+
                 return redirect($this->loginUrl);
             }
 
             $token = session('sso_access_token');
             if (! DB::table('sso_tokens')->where('token', $token)->first()) {
                 auth()->logout();
+
                 return redirect($this->loginUrl);
             }
 
             if (! $user = User::find($token)) {
                 auth()->logout();
+
                 return redirect($this->loginUrl);
             }
 
