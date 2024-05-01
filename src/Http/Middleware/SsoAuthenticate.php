@@ -15,9 +15,15 @@ use Illuminate\Support\Facades\DB;
 
 class SsoAuthenticate
 {
-    private string $loginUrl = route('sso.login');
+    private string $loginUrl;
 
-    private int $validateTokenTime = 30;
+    private int $validateTokenTime;
+
+    public function __construct()
+    {
+        $this->loginUrl = route('sso.login');
+        $this->validateTokenTime = 30;
+    }
 
     /**
      * Handle an incoming request.
