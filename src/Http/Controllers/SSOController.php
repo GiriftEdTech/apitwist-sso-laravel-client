@@ -74,7 +74,7 @@ class SSOController extends Controller
         Auth::login($user);
         info('logged in user: '.json_encode($user));
 
-        return redirect()->route('sso.loggedIn');
+        return redirect()->route('sso.loggedIn', ['user' => $user->id, 'token' => $response['access_token']]);
     }
 
     public function logout(Request $request)
