@@ -21,7 +21,7 @@ $syncRoutes = [
     ['\App\Models\RoleUser', 'role_user', RoleUserController::class],
     ['\App\Models\InstitutionAuthorization', 'institution_authorization', InstitutionAuthorizationController::class],
     ['\App\Models\App', 'apps', AppController::class],
-    ['\App\Models\App', 'institution_categories', InstitutionCategoryController::class],
+    ['\App\Models\InstitutionCategory', 'institution_categories', InstitutionCategoryController::class],
 ];
 
 foreach ($syncRoutes as $syncRoute) {

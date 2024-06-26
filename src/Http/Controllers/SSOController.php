@@ -64,7 +64,6 @@ class SSOController extends Controller
         if (! $user = (new SSOService())->handle($response['access_token'], $expires_at)) {
             return redirect()->route('sso.login')->with('error', 'Invalid state');
         }
-
         Auth::login($user);
 
         return redirect()->route('sso.loggedIn', ['user' => $user->id, 'token' => $response['access_token']]);
@@ -77,12 +76,11 @@ class SSOController extends Controller
             if ($user->ssoToken()->exists()) {
                 $headers = [
                     'Content-Type' => 'application/json',
-                    'Application' => 'application/json',
+                    'Accept' => 'application/json',
                     'Authorization' => 'Bearer '.$user->getSsoToken(),
                 ];
                 $client = new Client(['headers' => $headers, 'http_errors' => false]);
-                $client->post(config('sso.api_url'));
-
+                $client->post(config('sso.sso_domain').'/api/logout');
                 $user->ssoToken->delete();
             }
         }
