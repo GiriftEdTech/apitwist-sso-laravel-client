@@ -61,7 +61,7 @@ class SSOController extends Controller
 
         $expires_at = Carbon::parse($response['expires_in'] + now()->timestamp);
 
-        if (! $user = (new SSOService())->handle($response['access_token'], $expires_at)) {
+        if (! $user = (new SSOService)->handle($response['access_token'], $expires_at)) {
             return redirect()->route('sso.login')->with('error', 'Invalid state');
         }
         Auth::login($user);
