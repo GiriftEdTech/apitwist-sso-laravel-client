@@ -18,7 +18,7 @@ class SsoApiAuthenticate
     public function __construct()
     {
         $this->validateTokenTime = 30;
-        $this->service = new SSOService();
+        $this->service = new SSOService;
     }
 
     /**
@@ -47,7 +47,7 @@ class SsoApiAuthenticate
 
         // If token last used at is greater than 30 minutes ago, logout user
         if ($user->ssoToken->last_used_at->diffInMinutes() > $this->validateTokenTime) {
-            //validate token
+            // validate token
             if (! $this->service->validateToken($user->getSsoToken(), $user)) {
                 return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
             }
